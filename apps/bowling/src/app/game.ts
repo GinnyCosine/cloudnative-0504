@@ -1,42 +1,43 @@
 export class Game {
-    private rolls: number[] = [];
-    private currentRoll = 0;
-    roll(pins: number) {
-      this.rolls[this.currentRoll++] = pins;
+    private books: number[] = [];
+    private currentBook = 0;
+    buy(book: number) {
+      this.books[this.currentBook++] = book;
     }
   
-    get score() {
-      let score = 0;
-      let frameIndex = 0;
-      for (let frame = 0; frame < 10; frame++) {
-        if (this.isStrike(frameIndex)) {
-          score += 10 + this.strikeBouns(frameIndex);
-          frameIndex++;
-          continue;
+    get price() {
+        let countDifferent = 0;
+        let diff : number[] = [];
+        for (let i = 0; i < this.currentBook; i++) {
+            let flag = true;
+            for (let j = 0; j < countDifferent; j++) {
+                if (diff[j] == this.books[i]) {
+                    flag = false;
+                }
+            }
+            if (flag) {
+                diff[countDifferent] = this.books[i];
+                countDifferent++;
+            }
         }
-        if (this.isSpare(frameIndex)) {
-          score += 10 + this.spareBouns(frameIndex);
-        } else {
-          score += this.rolls[frameIndex] + this.rolls[frameIndex + 1];
+
+        let price = (this.currentBook - countDifferent) * 100;
+        let discount = 0;
+        if (countDifferent == 2) {
+            discount = 5;
         }
-        frameIndex += 2;
-      }
-      return score;
+        else if (countDifferent == 3) {
+            discount = 10;
+        }
+        else if (countDifferent == 4) {
+            discount = 20;
+        }
+        else if (countDifferent >= 5) {
+            discount = 25;
+        }
+        price += countDifferent * 100 * (100 - discount) / 100;
+
+        return price;
     }
-  
-    private isStrike(frameIndex: number) {
-      return this.rolls[frameIndex] === 10;
-    }
-  
-    private isSpare(frameIndex: number) {
-      return this.rolls[frameIndex] + this.rolls[frameIndex + 1] === 10;
-    }
-  
-    private strikeBouns(frameIndex: number) {
-      return this.rolls[frameIndex + 1] + this.rolls[frameIndex + 2];
-    }
-  
-    private spareBouns(frameIndex: number) {
-      return this.rolls[frameIndex + 2];
-    }
+
   }

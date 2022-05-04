@@ -11,40 +11,69 @@ describe('Game', () => {
     expect(game).toBeTruthy();
   });
 
-  test('all zero', () => {
-    rollMany(20, 0);
-    expect(game.score).toBe(0);
+  test('buy 1', () => {
+    game.buy(1);
+    expect(game.price).toBe(100);
   });
 
-  test('all one', () => {
-    rollMany(20, 1);
-    expect(game.score).toBe(20);
+  test('buy 1, 2', () => {
+    game.buy(1);
+    game.buy(2);
+    expect(game.price).toBe(190);
   });
 
-  test('test on one spare', () => {
-    game.roll(5);
-    game.roll(5); // spare
-    game.roll(3);
-    rollMany(17, 0);
-    expect(game.score).toBe(16);
+  test('buy 1, 2, 2', () => {
+    game.buy(1);
+    game.buy(2);
+    game.buy(2);
+    expect(game.price).toBe(290);
   });
 
-  test('test on one strike', () => {
-    game.roll(10);
-    game.roll(3);
-    game.roll(4);
-    rollMany(17, 0);
-    expect(game.score).toBe(24);
+  test('buy 1, 2, 2, 3', () => {
+    game.buy(1);
+    game.buy(2);
+    game.buy(2);
+    game.buy(3);
+    expect(game.price).toBe(370);
   });
 
-  test('perfect game', () => {
-    rollMany(12, 10);
-    expect(game.score).toBe(300);
+  test('buy 1, 2, 2, 3, 3', () => {
+    game.buy(1);
+    game.buy(2);
+    game.buy(2);
+    game.buy(3);
+    game.buy(3);
+    expect(game.price).toBe(470);
   });
 
-  function rollMany(n: number, pins: number) {
-    for (let i = 0; i < n; i++) {
-      game.roll(pins);
-    }
-  }
+  test('buy 1, 2, 2, 3, 4', () => {
+    game.buy(1);
+    game.buy(2);
+    game.buy(2);
+    game.buy(3);
+    game.buy(4);
+    expect(game.price).toBe(420);
+  });
+
+  test('buy 1, 2, 2, 3, 4, 5', () => {
+    game.buy(1);
+    game.buy(2);
+    game.buy(2);
+    game.buy(3);
+    game.buy(4);
+    game.buy(5);
+    expect(game.price).toBe(475);
+  });
+
+  test('buy 1, 2, 2, 3, 3, 4, 5', () => {
+    game.buy(1);
+    game.buy(2);
+    game.buy(2);
+    game.buy(3);
+    game.buy(3);
+    game.buy(4);
+    game.buy(5);
+    expect(game.price).toBe(575);
+  });
+
 });
